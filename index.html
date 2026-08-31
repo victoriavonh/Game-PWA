@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1f2937">
+  <meta name="description" content="A generic offline game companion for quests, materials, collectibles and bestiary notes.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Game Companion</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Offline game notebook</p>
+        <h1>Game Companion</h1>
+      </div>
+      <div class="top-actions">
+        <button id="installBtn" class="ghost" hidden>Install app</button>
+        <button id="menuBtn" class="ghost" aria-expanded="false" aria-controls="dataMenu">Data</button>
+      </div>
+      <div id="dataMenu" class="data-menu" hidden>
+        <button id="exportBtn">Export backup</button>
+        <label class="file-button">Import backup<input id="importInput" type="file" accept="application/json,.json"></label>
+        <button id="resetBtn" class="danger-text">Reset app data</button>
+      </div>
+    </header>
+
+    <section class="game-picker card">
+      <div class="field grow">
+        <label for="gameSelect">Game</label>
+        <select id="gameSelect"></select>
+      </div>
+      <button id="addGameBtn" class="secondary">+ Game</button>
+      <button id="editGameBtn" class="secondary">Rename</button>
+    </section>
+
+    <main>
+      <nav class="tabs" aria-label="Sections">
+        <button class="tab active" data-tab="dashboard">Overview</button>
+        <button class="tab" data-tab="quests">Quests</button>
+        <button class="tab" data-tab="materials">Materials</button>
+        <button class="tab" data-tab="collectibles">Collectibles</button>
+        <button class="tab" data-tab="bestiary">Bestiary</button>
+      </nav>
+
+      <section id="dashboard" class="panel active">
+        <div id="statsGrid" class="stats-grid"></div>
+        <div class="two-col">
+          <article class="card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Still needed</p>
+                <h2>Shopping list</h2>
+              </div>
+            </div>
+            <div id="shoppingList" class="stack"></div>
+          </article>
+          <article class="card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">In progress</p>
+                <h2>Quest journal</h2>
+              </div>
+            </div>
+            <div id="dashboardQuests" class="stack"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="quests" class="panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Custom objectives</p><h2>Quest Journal</h2></div>
+          <button data-open-modal="quest">+ Quest</button>
+        </div>
+        <div class="toolbar">
+          <input id="questSearch" type="search" placeholder="Search quests…">
+          <select id="questStatusFilter">
+            <option value="all">All statuses</option>
+            <option value="active">Active</option>
+            <option value="complete">Complete</option>
+          </select>
+        </div>
+        <div id="questList" class="stack"></div>
+      </section>
+
+      <section id="materials" class="panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Ingredient calculator</p><h2>Materials Ledger</h2></div>
+          <button data-open-modal="material">+ Material</button>
+        </div>
+        <p class="helper">Enter what you own and how many you need. Remaining quantities calculate automatically.</p>
+        <div id="materialList" class="stack"></div>
+      </section>
+
+      <section id="collectibles" class="panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Grouped sets</p><h2>Collectibles</h2></div>
+          <button data-open-modal="collectible">+ Collection</button>
+        </div>
+        <p class="helper">Great for sets such as Stones of Barenziah, bobbleheads, cards, shrines, fish, achievements, or anything else you want to tick off.</p>
+        <div id="collectibleList" class="stack"></div>
+      </section>
+
+      <section id="bestiary" class="panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Enemy notebook</p><h2>Bestiary</h2></div>
+          <button data-open-modal="enemy">+ Enemy</button>
+        </div>
+        <div class="toolbar">
+          <input id="enemySearch" type="search" placeholder="Search enemies, types, locations…">
+        </div>
+        <div id="enemyList" class="enemy-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="entryDialog">
+    <form id="entryForm" method="dialog">
+      <div class="dialog-head">
+        <div>
+          <p id="dialogEyebrow" class="eyebrow"></p>
+          <h2 id="dialogTitle"></h2>
+        </div>
+        <button type="button" id="closeDialogBtn" class="icon-btn" aria-label="Close">×</button>
+      </div>
+      <div id="dialogFields"></div>
+      <div class="dialog-actions">
+        <button type="button" id="cancelDialogBtn" class="secondary">Cancel</button>
+        <button type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
